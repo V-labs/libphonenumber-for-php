@@ -2346,13 +2346,14 @@ class PhoneNumberUtil
             return $number->hasRawInput() ? $number->getRawInput() : '';
         }
 
-        $formattedNumber = '';
         // Clear the extension, as that part cannot normally be dialed together with the main number.
         $numberNoExt = new PhoneNumber();
         $numberNoExt->mergeFrom($number)->clearExtension();
-        $regionCode = $this->getRegionCodeForCountryCode($countryCallingCode);
-        $numberType = $this->getNumberType($numberNoExt);
-        $isValidNumber = ($numberType !== PhoneNumberType::UNKNOWN);
+        $regionCode      = $this->getRegionCodeForCountryCode($countryCallingCode);
+        $numberType      = $this->getNumberType($numberNoExt);
+        $isValidNumber   = ($numberType !== PhoneNumberType::UNKNOWN);
+        $formattedNumber = $number->hasRawInput() ? $number->getRawInput() : '';
+
         if ($regionCallingFrom == $regionCode) {
             $isFixedLineOrMobile = ($numberType == PhoneNumberType::FIXED_LINE) || ($numberType == PhoneNumberType::MOBILE) || ($numberType == PhoneNumberType::FIXED_LINE_OR_MOBILE);
             // Carrier codes may be needed in some countries. We handle this here.
